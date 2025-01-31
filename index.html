@@ -11,12 +11,12 @@
       box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
-    
+
     body {
       background: #fdfdfd;
       overflow-x: hidden; /* Prevent horizontal scrollbar */
     }
-    
+
     header {
       background: #222;
       color: #fff;
@@ -26,11 +26,11 @@
       letter-spacing: 2px;
       text-transform: uppercase;
     }
-    
+
     header h1 {
       margin: 0;
     }
-    
+
     /* Scrolling Gallery Container */
     .gallery-container {
       position: relative;
@@ -40,15 +40,15 @@
       max-width: 1200px;
       height: 220px; /* Adjust height to your preference */
     }
-    
-    /* The moving “track” of images/gifs */
+
+    /* The moving “track” of images */
     .gallery-track {
       display: inline-block;
       white-space: nowrap;
       animation: scroll 30s linear infinite; 
       /* 30s to complete one loop. Adjust for speed. */
     }
-    
+
     /* Individual gallery items */
     .gallery-item {
       display: inline-block;
@@ -61,20 +61,20 @@
       position: relative;
       transition: transform 0.3s ease;
     }
-    
+
     /* Hover effect */
     .gallery-item:hover {
       transform: scale(1.1);
       z-index: 10;
     }
-    
+
     .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-    
+
     /* Keyframes for continuous scrolling */
     @keyframes scroll {
       0% {
@@ -84,13 +84,13 @@
         transform: translateX(-100%);
       }
     }
-    
+
     /* Contact / Footer styling */
     .contact {
       text-align: center;
       margin-top: 2rem;
     }
-    
+
     .contact a {
       text-decoration: none;
       color: #222;
@@ -100,12 +100,12 @@
       font-weight: bold;
       transition: all 0.3s ease;
     }
-    
+
     .contact a:hover {
       background: #222;
       color: #fff;
     }
-    
+
     footer {
       text-align: center;
       margin-top: 2rem;
@@ -126,32 +126,74 @@
   <!-- Scrolling Gallery -->
   <div class="gallery-container">
     <div class="gallery-track">
-      <!-- Replace these with your own images/GIFs -->
+
+      <!-- Replace these <div> blocks with the actual file paths if needed -->
       <div class="gallery-item">
-        <img src="https://placekitten.com/300/200" alt="Sample 1">
+        <img src="images/1.jpg" alt="1">
       </div>
       <div class="gallery-item">
-        <img src="https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif" alt="GIF 1">
+        <img src="images/2.jpg" alt="2">
       </div>
       <div class="gallery-item">
-        <img src="https://placekitten.com/301/200" alt="Sample 2">
+        <img src="images/3.jpg" alt="3">
       </div>
       <div class="gallery-item">
-        <img src="https://media.giphy.com/media/1k5FzNGVeX7pNt9Et3/giphy.gif" alt="GIF 2">
+        <img src="images/4.jpg" alt="4">
       </div>
       <div class="gallery-item">
-        <img src="https://placekitten.com/302/200" alt="Sample 3">
+        <img src="images/5.jpg" alt="5">
       </div>
       <div class="gallery-item">
-        <img src="https://media.giphy.com/media/qLFKvOpoS1N7ts7xO2/giphy.gif" alt="GIF 3">
+        <img src="images/6.jpg" alt="6">
       </div>
       <div class="gallery-item">
-        <img src="https://placekitten.com/303/200" alt="Sample 4">
+        <img src="images/7.jpg" alt="7">
       </div>
       <div class="gallery-item">
-        <img src="https://media.giphy.com/media/OlymTRmjIq0RG/giphy.gif" alt="GIF 4">
+        <img src="images/8.jpg" alt="8">
       </div>
-      <!-- Add more items as needed -->
+      <div class="gallery-item">
+        <img src="images/9.jpg" alt="9">
+      </div>
+      <div class="gallery-item">
+        <img src="images/10.jpg" alt="10">
+      </div>
+      <div class="gallery-item">
+        <img src="images/11.jpg" alt="11">
+      </div>
+      <div class="gallery-item">
+        <img src="images/12.jpg" alt="12">
+      </div>
+      <div class="gallery-item">
+        <img src="images/13.jpg" alt="13">
+      </div>
+      <div class="gallery-item">
+        <img src="images/IMG_1625.JPG" alt="IMG_1625">
+      </div>
+      <div class="gallery-item">
+        <img src="images/IMG_1596.JPG" alt="IMG_1596">
+      </div>
+      <div class="gallery-item">
+        <img src="images/IMG_1571.JPG" alt="IMG_1571">
+      </div>
+      <div class="gallery-item">
+        <img src="images/IMG_1483.JPG" alt="IMG_1483">
+      </div>
+      <div class="gallery-item">
+        <img src="images/IMG_1455.JPG" alt="IMG_1455">
+      </div>
+      <div class="gallery-item">
+        <img src="images/IMG_2048.JPG" alt="IMG_2048">
+      </div>
+      <div class="gallery-item">
+        <img src="images/IMG_2090.JPG" alt="IMG_2090">
+      </div>
+      <div class="gallery-item">
+        <img src="images/IMG_2091.JPG" alt="IMG_2091">
+      </div>
+
+      <!-- Add more images as needed -->
+
     </div>
   </div>
 
