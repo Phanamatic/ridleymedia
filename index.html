@@ -13,12 +13,12 @@
     body {
       font-family: Arial, sans-serif;
       background: #fdfdfd;
-      /* Leave some bottom padding so carousels don't overlap the fixed footer */
+      /* Leave bottom padding so elements don't get hidden behind the fixed footer */
       padding-bottom: 100px; 
-      overflow-x: hidden; /* Prevent horizontal scroll */
+      overflow-x: hidden; /* Hide horizontal scrollbar for the moving carousels */
     }
 
-    /* Header */
+    /* Header styling */
     header {
       background: #222;
       color: #fff;
@@ -32,59 +32,54 @@
       margin: 0;
     }
 
-    /* Generic carousel container styling */
+    /* Carousel container */
     .carousel-container {
       width: 100%;
-      overflow: hidden;
-      /* You can adjust the height to fit larger images */
-      height: 320px; 
+      /* Let items expand outside so they don't get cropped on hover */
+      overflow-x: hidden; 
+      overflow-y: visible; 
+      height: 340px; /* Adjust for your larger images + a bit of headroom */
       margin: 2rem 0;
       position: relative;
     }
 
-    /* Common track styling (both LTR and RTL) */
+    /* Track that moves inside each carousel */
     .gallery-track {
-      display: inline-flex;        /* Horizontal layout of items */
-      width: 200%;                /* Double the width for a seamless loop */
-      animation-duration: 60s;    /* Slowed down to 60s per loop */
+      display: inline-flex;       /* Lay items horizontally */
+      width: 200%;               /* Double width to accommodate seamless duplication */
+      animation-duration: 60s;   /* Slowed down to 60 seconds per loop */
       animation-timing-function: linear;
       animation-iteration-count: infinite;
     }
 
-    /* Left-to-Right animation */
+    /* First carousel: left-to-right scroll */
     @keyframes scroll-ltr {
       0%   { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
+    .gallery-track-ltr {
+      animation-name: scroll-ltr;
+    }
 
-    /* Right-to-Left animation (same idea, but reversed direction) */
+    /* Second carousel: right-to-left scroll, starts “in the middle” for a continuous look */
     @keyframes scroll-rtl {
       0%   { transform: translateX(-50%); }
       100% { transform: translateX(0); }
-    }
-
-    .gallery-track-ltr {
-      animation-name: scroll-ltr;
     }
     .gallery-track-rtl {
       animation-name: scroll-rtl;
     }
 
-    /* Individual items */
+    /* Individual image items */
     .gallery-item {
-      flex: 0 0 auto;          /* Prevent items from shrinking */
-      width: 300px;            /* Larger image width */
-      height: 300px;           /* Larger image height */
+      flex: 0 0 auto;      /* Don’t shrink; keep each item’s width */
+      width: 300px;        /* Larger item size */
+      height: 300px;
       margin-right: 1rem;
-      border-radius: 8px;
-      overflow: hidden;
       background: #eee;
       transition: transform 0.3s ease;
       position: relative;
-    }
-    .gallery-item:hover {
-      transform: scale(1.1);
-      z-index: 10;
+      overflow: visible;   /* So scaled images won't be clipped */
     }
     .gallery-item img {
       width: 100%;
@@ -92,11 +87,15 @@
       object-fit: cover;
       display: block;
     }
+    .gallery-item:hover {
+      transform: scale(1.1);
+      z-index: 10;
+    }
 
-    /* Contact button styling */
+    /* Contact button */
     .contact {
       text-align: center;
-      margin-top: 1rem;
+      margin: 1rem 0;
     }
     .contact a {
       text-decoration: none;
@@ -112,7 +111,7 @@
       color: #fff;
     }
 
-    /* Fixed footer at bottom */
+    /* Fixed footer at bottom of the page */
     footer {
       position: fixed;
       bottom: 0;
@@ -124,7 +123,6 @@
       padding: 1rem 0;
       font-size: 0.9rem;
     }
-
   </style>
 </head>
 <body>
@@ -137,8 +135,9 @@
   <!-- First Carousel (Left-to-Right) -->
   <div class="carousel-container">
     <div class="gallery-track gallery-track-ltr">
-      <!-- Repeat the same images twice for a seamless loop -->
-      <!-- 1st set (normal order) -->
+
+      <!-- Duplicate the entire set of images twice for infinite loop -->
+      <!-- 1st set (in normal order) -->
       <div class="gallery-item"><img src="images/1.jpg" alt="1"></div>
       <div class="gallery-item"><img src="images/2.jpg" alt="2"></div>
       <div class="gallery-item"><img src="images/3.jpg" alt="3"></div>
@@ -152,15 +151,16 @@
       <div class="gallery-item"><img src="images/11.jpg" alt="11"></div>
       <div class="gallery-item"><img src="images/12.jpg" alt="12"></div>
       <div class="gallery-item"><img src="images/13.jpg" alt="13"></div>
-      <div class="gallery-item"><img src="images/IMG_1625.JPG" alt="1625"></div>
-      <div class="gallery-item"><img src="images/IMG_1596.JPG" alt="1596"></div>
-      <div class="gallery-item"><img src="images/IMG_1571.JPG" alt="1571"></div>
-      <div class="gallery-item"><img src="images/IMG_1483.JPG" alt="1483"></div>
-      <div class="gallery-item"><img src="images/IMG_1455.JPG" alt="1455"></div>
-      <div class="gallery-item"><img src="images/IMG_2048.JPG" alt="2048"></div>
-      <div class="gallery-item"><img src="images/IMG_2090.JPG" alt="2090"></div>
-      <div class="gallery-item"><img src="images/IMG_2091.JPG" alt="2091"></div>
-      <!-- 2nd set (repeat for infinite loop) -->
+      <div class="gallery-item"><img src="images/IMG_1625.JPG" alt="IMG_1625"></div>
+      <div class="gallery-item"><img src="images/IMG_1596.JPG" alt="IMG_1596"></div>
+      <div class="gallery-item"><img src="images/IMG_1571.JPG" alt="IMG_1571"></div>
+      <div class="gallery-item"><img src="images/IMG_1483.JPG" alt="IMG_1483"></div>
+      <div class="gallery-item"><img src="images/IMG_1455.JPG" alt="IMG_1455"></div>
+      <div class="gallery-item"><img src="images/IMG_2048.JPG" alt="IMG_2048"></div>
+      <div class="gallery-item"><img src="images/IMG_2090.JPG" alt="IMG_2090"></div>
+      <div class="gallery-item"><img src="images/IMG_2091.JPG" alt="IMG_2091"></div>
+
+      <!-- 2nd set (repeat) -->
       <div class="gallery-item"><img src="images/1.jpg" alt="1"></div>
       <div class="gallery-item"><img src="images/2.jpg" alt="2"></div>
       <div class="gallery-item"><img src="images/3.jpg" alt="3"></div>
@@ -174,30 +174,66 @@
       <div class="gallery-item"><img src="images/11.jpg" alt="11"></div>
       <div class="gallery-item"><img src="images/12.jpg" alt="12"></div>
       <div class="gallery-item"><img src="images/13.jpg" alt="13"></div>
-      <div class="gallery-item"><img src="images/IMG_1625.JPG" alt="1625"></div>
-      <div class="gallery-item"><img src="images/IMG_1596.JPG" alt="1596"></div>
-      <div class="gallery-item"><img src="images/IMG_1571.JPG" alt="1571"></div>
-      <div class="gallery-item"><img src="images/IMG_1483.JPG" alt="1483"></div>
-      <div class="gallery-item"><img src="images/IMG_1455.JPG" alt="1455"></div>
-      <div class="gallery-item"><img src="images/IMG_2048.JPG" alt="2048"></div>
-      <div class="gallery-item"><img src="images/IMG_2090.JPG" alt="2090"></div>
-      <div class="gallery-item"><img src="images/IMG_2091.JPG" alt="2091"></div>
+      <div class="gallery-item"><img src="images/IMG_1625.JPG" alt="IMG_1625"></div>
+      <div class="gallery-item"><img src="images/IMG_1596.JPG" alt="IMG_1596"></div>
+      <div class="gallery-item"><img src="images/IMG_1571.JPG" alt="IMG_1571"></div>
+      <div class="gallery-item"><img src="images/IMG_1483.JPG" alt="IMG_1483"></div>
+      <div class="gallery-item"><img src="images/IMG_1455.JPG" alt="IMG_1455"></div>
+      <div class="gallery-item"><img src="images/IMG_2048.JPG" alt="IMG_2048"></div>
+      <div class="gallery-item"><img src="images/IMG_2090.JPG" alt="IMG_2090"></div>
+      <div class="gallery-item"><img src="images/IMG_2091.JPG" alt="IMG_2091"></div>
     </div>
   </div>
 
   <!-- Second Carousel (Right-to-Left) -->
   <div class="carousel-container">
     <div class="gallery-track gallery-track-rtl">
-      <!-- 1st set (reverse order if you like, here we'll just keep normal order for demo) -->
-      <div class="gallery-item"><img src="images/1.jpg" alt="1"></div>
+
+      <!-- 1st set (random order). Modify as you wish to truly randomize. -->
+      <div class="gallery-item"><img src="images/9.jpg" alt="9"></div>
       <div class="gallery-item"><img src="images/2.jpg" alt="2"></div>
-      <!-- ... repeat all images ... -->
-      <div class="gallery-item"><img src="images/IMG_2091.JPG" alt="2091"></div>
-      <!-- 2nd set (duplicate for loop) -->
+      <div class="gallery-item"><img src="images/12.jpg" alt="12"></div>
+      <div class="gallery-item"><img src="images/IMG_1455.JPG" alt="1455"></div>
+      <div class="gallery-item"><img src="images/4.jpg" alt="4"></div>
+      <div class="gallery-item"><img src="images/7.jpg" alt="7"></div>
+      <div class="gallery-item"><img src="images/IMG_1483.JPG" alt="1483"></div>
+      <div class="gallery-item"><img src="images/13.jpg" alt="13"></div>
+      <div class="gallery-item"><img src="images/5.jpg" alt="5"></div>
+      <div class="gallery-item"><img src="images/IMG_2090.JPG" alt="2090"></div>
+      <div class="gallery-item"><img src="images/10.jpg" alt="10"></div>
+      <div class="gallery-item"><img src="images/IMG_1571.JPG" alt="1571"></div>
+      <div class="gallery-item"><img src="images/6.jpg" alt="6"></div>
       <div class="gallery-item"><img src="images/1.jpg" alt="1"></div>
-      <div class="gallery-item"><img src="images/2.jpg" alt="2"></div>
-      <!-- ... same repetition ... -->
       <div class="gallery-item"><img src="images/IMG_2091.JPG" alt="2091"></div>
+      <div class="gallery-item"><img src="images/IMG_2048.JPG" alt="2048"></div>
+      <div class="gallery-item"><img src="images/IMG_1625.JPG" alt="1625"></div>
+      <div class="gallery-item"><img src="images/11.jpg" alt="11"></div>
+      <div class="gallery-item"><img src="images/8.jpg" alt="8"></div>
+      <div class="gallery-item"><img src="images/IMG_1596.JPG" alt="1596"></div>
+      <div class="gallery-item"><img src="images/3.jpg" alt="3"></div>
+
+      <!-- 2nd set (repeat the same random sequence) -->
+      <div class="gallery-item"><img src="images/9.jpg" alt="9"></div>
+      <div class="gallery-item"><img src="images/2.jpg" alt="2"></div>
+      <div class="gallery-item"><img src="images/12.jpg" alt="12"></div>
+      <div class="gallery-item"><img src="images/IMG_1455.JPG" alt="1455"></div>
+      <div class="gallery-item"><img src="images/4.jpg" alt="4"></div>
+      <div class="gallery-item"><img src="images/7.jpg" alt="7"></div>
+      <div class="gallery-item"><img src="images/IMG_1483.JPG" alt="1483"></div>
+      <div class="gallery-item"><img src="images/13.jpg" alt="13"></div>
+      <div class="gallery-item"><img src="images/5.jpg" alt="5"></div>
+      <div class="gallery-item"><img src="images/IMG_2090.JPG" alt="2090"></div>
+      <div class="gallery-item"><img src="images/10.jpg" alt="10"></div>
+      <div class="gallery-item"><img src="images/IMG_1571.JPG" alt="1571"></div>
+      <div class="gallery-item"><img src="images/6.jpg" alt="6"></div>
+      <div class="gallery-item"><img src="images/1.jpg" alt="1"></div>
+      <div class="gallery-item"><img src="images/IMG_2091.JPG" alt="2091"></div>
+      <div class="gallery-item"><img src="images/IMG_2048.JPG" alt="2048"></div>
+      <div class="gallery-item"><img src="images/IMG_1625.JPG" alt="1625"></div>
+      <div class="gallery-item"><img src="images/11.jpg" alt="11"></div>
+      <div class="gallery-item"><img src="images/8.jpg" alt="8"></div>
+      <div class="gallery-item"><img src="images/IMG_1596.JPG" alt="1596"></div>
+      <div class="gallery-item"><img src="images/3.jpg" alt="3"></div>
     </div>
   </div>
 
@@ -206,7 +242,7 @@
     <a href="mailto:chris@ridleymedia.co.za">Contact Us</a>
   </div>
 
-  <!-- Fixed Footer -->
+  <!-- Footer fixed at bottom -->
   <footer>
     &copy; 2025 Ridley Media
   </footer>
