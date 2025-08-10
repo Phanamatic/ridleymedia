@@ -1,251 +1,643 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Ridley Media</title>
-  <link rel="icon" href="images/favicon.png" type="image/png">
+  <!--
+    Ridley Media • Home (v4)
+    - Multi-page: Home, Packages, Company Details, Privacy
+    - Client Showcase block (single past client)
+    - Reduce Risk block
+    - Brain-dead contact: Book call (Calendly), WhatsApp, Email, Form
+    - Analytics: Plausible + custom events
+    - Simple hero A/B test (stored in localStorage)
+    - Visual polish: scroll reveal, micro-interactions
+  -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ridley Media — Video, Photo & Social Content</title>
+  <meta name="description" content="Sharp video, photo, and social content for brands. See selected work, one client showcase, and simple packages. Book a call in one click." />
+  <link rel="icon" href="images/favicon.png" type="image/png" />
+  <link rel="canonical" href="https://ridleymedia.co.za/" />
+  <meta name="theme-color" content="#0f1115" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Ridley Media — Video, Photo & Social Content" />
+  <meta property="og:description" content="Sharp content, shipped fast. See work, a client showcase, and packages." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="images/1.jpg" />
+  <meta property="og:url" content="https://ridleymedia.co.za/" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ridley Media — Video, Photo & Social Content" />
+  <meta name="twitter:description" content="Sharp content, shipped fast. See work, a client showcase, and packages." />
+  <meta name="twitter:image" content="images/1.jpg" />
+
+  <!-- Analytics (Plausible). Replace data-domain with your domain. Safe if absent. -->
+  <script defer data-domain="ridleymedia.co.za" src="https://plausible.io/js/script.js"></script>
+
+  <!-- Cloudflare Turnstile (anti-spam for contact form). Replace data-sitekey below -->
+  <script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+
   <style>
-    /* Global resets */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root{
+      --bg: #0f1115;
+      --card: #151823;
+      --muted: #aab0c0;
+      --text: #eef1f8;
+      --accent: #7dd3fc;
+      --accent-2:#c084fc;
+      --ring: rgba(125,211,252,.35);
+      --max: 1200px;
+      --tile-size: 240px; /* gallery tiles */
     }
-    body {
-      font-family: Arial, sans-serif;
-      background: #fdfdfd;
-      /* Leave bottom padding so elements don't get hidden behind the fixed footer */
-      padding-bottom: 100px; 
-      overflow-x: hidden; /* Hide horizontal scrollbar for the moving carousels */
+    *,*::before,*::after{ box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(192,132,252,.12), transparent 60%),
+                  radial-gradient(1200px 600px at 90% -20%, rgba(125,211,252,.12), transparent 60%),
+                  var(--bg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
     }
-    /* Header styling */
-    header {
-      background: #222;
-      color: #fff;
-      text-align: center;
-      padding: 2rem;
-      font-size: 2rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    header h1 {
-      margin: 0;
-    }
+    a{ color: inherit; text-decoration: none; }
+    img{ display:block; max-width:100%; height:auto; }
+    .container{ max-width: var(--max); margin-inline:auto; padding-inline: 20px; }
+    .stack-lg > * + *{ margin-top: 2.25rem; }
+    .stack-md > * + *{ margin-top: 1.25rem; }
+    .center{ text-align:center; }
+    .row{ display:flex; gap: 1rem; flex-wrap: wrap; }
+    section{ scroll-margin-top: 80px; }
 
-    /* Carousel container */
-    .carousel-container {
-      width: 100%;
-      /* Let items expand outside so they don't get cropped on hover */
-      overflow-x: hidden; 
-      overflow-y: visible; 
-      height: 340px; /* Adjust for your larger images + a bit of headroom */
-      margin: 2rem 0;
-      position: relative;
-    }
+    /* Skip link */
+    .skip{ position:absolute; left:-9999px; top:-9999px; background:#0e1118; color:#fff; padding:8px 12px; border-radius:8px; z-index:9999; border:1px solid rgba(170,176,192,.35); }
+    .skip:focus{ left:12px; top:12px; }
 
-    /* Track that moves inside each carousel */
-    .gallery-track {
-      display: inline-flex;       /* Lay items horizontally */
-      width: 200%;               /* Double width to accommodate seamless duplication */
-      animation-duration: 60s;   /* Slowed down to 60 seconds per loop */
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
+    /* Header */
+    header{ position: sticky; top:0; z-index:40; backdrop-filter: saturate(140%) blur(8px);
+      background: linear-gradient(to bottom, rgba(15,17,21,.85), rgba(15,17,21,.55));
+      border-bottom: 1px solid rgba(125,211,252,.12);
     }
+    .nav{ display:flex; align-items:center; justify-content:space-between; height:64px; }
+    .brand{ display:flex; align-items:center; gap:.6rem; font-weight:700; letter-spacing:.2px; }
+    .brand-dot{ width:10px; height:10px; border-radius:999px; background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent-2)); box-shadow: 0 0 0 6px var(--ring); }
+    .navlinks{ display:flex; gap:14px; align-items:center; }
+    .navlinks a{ font-size:14px; color: var(--muted); }
+    .navlinks a:hover{ color: var(--text); }
+    .cta{ display:inline-flex; align-items:center; gap:.5rem; padding:.65rem 1rem; border-radius:999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2)); color:#0b0b0e; font-weight:700;
+      box-shadow: 0 6px 22px rgba(125,211,252,.25), inset 0 1px 0 rgba(255,255,255,.15);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .cta:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(192,132,252,.28); }
+    .btn-outline{ padding:.5rem .9rem; border-radius:999px; border:1px solid rgba(170,176,192,.35); color: var(--text); }
+    .btn-outline:hover{ border-color: var(--accent); box-shadow: 0 0 0 3px var(--ring); }
 
-    /* First carousel: left-to-right scroll */
-    @keyframes scroll-ltr {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .gallery-track-ltr {
-      animation-name: scroll-ltr;
-    }
+    /* Hero */
+    .hero{ padding: 56px 0 28px; }
+    .hero h1{ font-size: clamp(28px, 4.5vw, 48px); line-height:1.1; margin:0 0 12px; letter-spacing:.3px; }
+    .hero p{ color: var(--muted); font-size: clamp(16px, 2.5vw, 18px); max-width: 60ch; margin-inline:auto; }
+    .hero-actions{ margin-top: 18px; display:flex; justify-content:center; gap:.8rem; flex-wrap:wrap; }
 
-    /* Second carousel: right-to-left scroll, starts “in the middle” for a continuous look */
-    @keyframes scroll-rtl {
-      0%   { transform: translateX(-50%); }
-      100% { transform: translateX(0); }
-    }
-    .gallery-track-rtl {
-      animation-name: scroll-rtl;
-    }
+    /* Services cards */
+    .cards{ display:grid; grid-template-columns: repeat(12, 1fr); gap: 16px; margin-top: 22px; }
+    .card{ grid-column: span 12; background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+      border:1px solid rgba(170,176,192,.14); border-radius:18px; padding:18px; box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 30px rgba(0,0,0,.25); }
+    .card h3{ margin:0 0 6px; font-size:18px; }
+    .card p{ margin:0; color:var(--muted); }
+    @media (min-width:700px){ .card{ grid-column: span 4; } }
 
-    /* Individual image items */
-    .gallery-item {
-      flex: 0 0 auto;      /* Don’t shrink; keep each item’s width */
-      width: 300px;        /* Larger item size */
-      height: 300px;
-      margin-right: 1rem;
-      background: #eee;
-      transition: transform 0.3s ease;
-      position: relative;
-      overflow: visible;   /* So scaled images won't be clipped */
-    }
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .gallery-item:hover {
-      transform: scale(1.1);
-      z-index: 10;
-    }
+    /* Marquee galleries */
+    .marquee{ position:relative; margin:34px 0; height: calc(var(--tile-size) + 40px);
+      mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+    .track{ display:inline-flex; will-change: transform; animation-timing-function: linear; animation-iteration-count: infinite; }
+    @keyframes ltr { from{ transform: translateX(0) } to{ transform: translateX(-50%) } }
+    @keyframes rtl { from{ transform: translateX(-50%) } to{ transform: translateX(0) } }
+    .track.ltr{ animation-name: ltr; } .track.rtl{ animation-name: rtl; }
+    .marquee:hover .track, .marquee:focus-within .track{ animation-play-state: paused; }
+    .item{ flex:0 0 auto; width:var(--tile-size); height:var(--tile-size); margin-right:12px; border-radius:14px; overflow:hidden; background:var(--card);
+      border:1px solid rgba(170,176,192,.14); transition: transform .25s ease, box-shadow .25s ease; cursor: zoom-in; }
+    .item picture, .item img{ width:100%; height:100%; } .item img{ object-fit:cover; }
+    .item:hover{ transform: translateY(-4px); box-shadow: 0 16px 40px rgba(125,211,252,.12), 0 2px 0 1px rgba(192,132,252,.06) inset; }
+    @media (max-width:640px){ :root{ --tile-size: 200px; } }
 
-    /* Contact button */
-    .contact {
-      text-align: center;
-      margin: 1rem 0;
-    }
-    .contact a {
-      text-decoration: none;
-      color: #222;
-      border: 2px solid #222;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      font-weight: bold;
-      transition: all 0.3s ease;
-    }
-    .contact a:hover {
-      background: #222;
-      color: #fff;
-    }
+    /* Showcase */
+    .showcase{ display:grid; grid-template-columns: 1fr; gap:18px; margin-top: 22px; }
+    .showcase-card{ display:grid; grid-template-columns: 1fr; gap:14px; background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+      border:1px solid rgba(170,176,192,.14); border-radius:18px; padding:18px; }
+    .showcase-hero{ border-radius:14px; overflow:hidden; border:1px solid rgba(170,176,192,.14); }
+    .showcase h3{ margin:0; }
+    .badge{ display:inline-block; font-size:12px; padding:.25rem .5rem; border-radius:999px; border:1px solid rgba(170,176,192,.25); color: var(--muted); }
 
-    /* Fixed footer at bottom of the page */
-    footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #222;
-      color: #fff;
-      text-align: center;
-      padding: 1rem 0;
-      font-size: 0.9rem;
-    }
+    /* Reduce risk */
+    .benefits{ display:grid; grid-template-columns: repeat(12,1fr); gap: 16px; margin-top: 16px; }
+    .benefit{ grid-column: span 12; border:1px solid rgba(170,176,192,.14); border-radius:16px; padding:14px; background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)); }
+    @media (min-width:700px){ .benefit{ grid-column: span 4; } }
+
+    /* Contact block + form */
+    .contact { margin: 46px auto; }
+    .quick-ctas{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom: 12px; }
+    .quick-ctas a{ font-size:14px; }
+    .email{ display:inline-block; padding:.7rem 1.1rem; border-radius:12px; border:1px dashed rgba(170,176,192,.35); color: var(--muted); }
+    .email:hover{ border-color: var(--accent); color: var(--text); }
+    .form{ margin-top: 18px; display:grid; grid-template-columns: 1fr; gap: 12px; background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+      border:1px solid rgba(170,176,192,.14); border-radius:16px; padding:16px; }
+    .field{ display:grid; gap:6px; }
+    .field label{ font-size:14px; color: var(--muted); }
+    .field input,.field select,.field textarea{ width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(170,176,192,.25); background:#0e1118; color:var(--text); outline:none; }
+    .field input:focus,.field select:focus,.field textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px var(--ring); }
+    .form .actions{ display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; }
+    .hint{ font-size:12px; color: var(--muted); }
+    .success{ color:#86efac; } .error{ color:#fda4af; }
+
+    /* Footer */
+    footer{ border-top:1px solid rgba(170,176,192,.12); text-align:center; font-size:14px; color:var(--muted);
+      padding:18px 0; margin-top:36px; background: linear-gradient(to top, rgba(10,12,16,.35), rgba(10,12,16,0)); }
+    footer nav{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:6px; }
+
+    /* Lightbox */
+    .lightbox{ position:fixed; inset:0; z-index:1000; display:none; align-items:center; justify-content:center; background: rgba(5,7,10,.85); }
+    .lightbox.open{ display:flex; }
+    .lb-content{ position:relative; max-width:92vw; max-height:88vh; }
+    .lb-img{ max-width:92vw; max-height:82vh; border-radius:10px; border:1px solid rgba(170,176,192,.25); }
+    .lb-caption{ margin-top:8px; text-align:center; color:var(--muted); font-size:14px; }
+    .lb-close,.lb-prev,.lb-next{ position:absolute; top:50%; transform:translateY(-50%); background: rgba(15,17,21,.7); border:1px solid rgba(170,176,192,.3);
+      width:42px; height:42px; border-radius:999px; display:grid; place-items:center; cursor:pointer; user-select:none; }
+    .lb-close{ top:-14px; right:-14px; transform:none; }
+    .lb-prev{ left:-56px; } .lb-next{ right:-56px; }
+    @media (max-width:700px){ .lb-prev{ left:8px; } .lb-next{ right:8px; } }
+    .lb-close:hover,.lb-prev:hover,.lb-next:hover{ box-shadow: 0 0 0 3px var(--ring); }
+    .no-scroll{ overflow:hidden; }
+
+    /* Scroll reveal (visual polish) */
+    .reveal{ opacity:0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in{ opacity:1; transform:none; }
   </style>
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ProfessionalService",
+    "name":"Ridley Media",
+    "url":"https://ridleymedia.co.za/",
+    "email":"mailto:chris@ridleymedia.co.za",
+    "areaServed":["South Africa","Worldwide"],
+    "contactPoint":{
+      "@type":"ContactPoint",
+      "contactType":"customer service",
+      "email":"chris@ridleymedia.co.za"
+    }
+  }
+  </script>
 </head>
 <body>
 
+  <a class="skip" href="#work">Skip to content</a>
+
   <!-- Header -->
   <header>
-    <h1>Ridley Media</h1>
+    <div class="container nav">
+      <div class="brand" aria-label="Ridley Media">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>Ridley Media</span>
+      </div>
+      <nav class="navlinks" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="packages.html">Packages</a>
+        <a href="#showcase">Showcase</a>
+        <a href="#contact">Contact</a>
+        <a href="company.html">Company Details</a>
+        <a href="privacy.html">Privacy</a>
+        <a id="navBookCall" class="cta" href="https://calendly.com/YOUR_HANDLE/15min" target="_blank" rel="noopener">Book a 15-min call</a>
+      </nav>
+    </div>
   </header>
 
-  <!-- First Carousel (Left-to-Right) -->
-  <div class="carousel-container">
-    <div class="gallery-track gallery-track-ltr">
-
-      <!-- Duplicate the entire set of images twice for infinite loop -->
-      <!-- 1st set (in normal order) -->
-      <div class="gallery-item"><img src="images/1.jpg" alt="1"></div>
-      <div class="gallery-item"><img src="images/2.jpg" alt="2"></div>
-      <div class="gallery-item"><img src="images/3.jpg" alt="3"></div>
-      <div class="gallery-item"><img src="images/4.jpg" alt="4"></div>
-      <div class="gallery-item"><img src="images/5.jpg" alt="5"></div>
-      <div class="gallery-item"><img src="images/6.jpg" alt="6"></div>
-      <div class="gallery-item"><img src="images/7.jpg" alt="7"></div>
-      <div class="gallery-item"><img src="images/8.jpg" alt="8"></div>
-      <div class="gallery-item"><img src="images/9.jpg" alt="9"></div>
-      <div class="gallery-item"><img src="images/10.jpg" alt="10"></div>
-      <div class="gallery-item"><img src="images/11.jpg" alt="11"></div>
-      <div class="gallery-item"><img src="images/12.jpg" alt="12"></div>
-      <div class="gallery-item"><img src="images/13.jpg" alt="13"></div>
-      <div class="gallery-item"><img src="images/IMG_1625.JPG" alt="IMG_1625"></div>
-      <div class="gallery-item"><img src="images/IMG_1596.JPG" alt="IMG_1596"></div>
-      <div class="gallery-item"><img src="images/IMG_1571.JPG" alt="IMG_1571"></div>
-      <div class="gallery-item"><img src="images/IMG_1483.JPG" alt="IMG_1483"></div>
-      <div class="gallery-item"><img src="images/IMG_1455.JPG" alt="IMG_1455"></div>
-      <div class="gallery-item"><img src="images/IMG_2048.JPG" alt="IMG_2048"></div>
-      <div class="gallery-item"><img src="images/IMG_2090.JPG" alt="IMG_2090"></div>
-      <div class="gallery-item"><img src="images/IMG_2091.JPG" alt="IMG_2091"></div>
-
-      <!-- 2nd set (repeat) -->
-      <div class="gallery-item"><img src="images/1.jpg" alt="1"></div>
-      <div class="gallery-item"><img src="images/2.jpg" alt="2"></div>
-      <div class="gallery-item"><img src="images/3.jpg" alt="3"></div>
-      <div class="gallery-item"><img src="images/4.jpg" alt="4"></div>
-      <div class="gallery-item"><img src="images/5.jpg" alt="5"></div>
-      <div class="gallery-item"><img src="images/6.jpg" alt="6"></div>
-      <div class="gallery-item"><img src="images/7.jpg" alt="7"></div>
-      <div class="gallery-item"><img src="images/8.jpg" alt="8"></div>
-      <div class="gallery-item"><img src="images/9.jpg" alt="9"></div>
-      <div class="gallery-item"><img src="images/10.jpg" alt="10"></div>
-      <div class="gallery-item"><img src="images/11.jpg" alt="11"></div>
-      <div class="gallery-item"><img src="images/12.jpg" alt="12"></div>
-      <div class="gallery-item"><img src="images/13.jpg" alt="13"></div>
-      <div class="gallery-item"><img src="images/IMG_1625.JPG" alt="IMG_1625"></div>
-      <div class="gallery-item"><img src="images/IMG_1596.JPG" alt="IMG_1596"></div>
-      <div class="gallery-item"><img src="images/IMG_1571.JPG" alt="IMG_1571"></div>
-      <div class="gallery-item"><img src="images/IMG_1483.JPG" alt="IMG_1483"></div>
-      <div class="gallery-item"><img src="images/IMG_1455.JPG" alt="IMG_1455"></div>
-      <div class="gallery-item"><img src="images/IMG_2048.JPG" alt="IMG_2048"></div>
-      <div class="gallery-item"><img src="images/IMG_2090.JPG" alt="IMG_2090"></div>
-      <div class="gallery-item"><img src="images/IMG_2091.JPG" alt="IMG_2091"></div>
+  <!-- Hero (A/B tested copy + CTA) -->
+  <section class="hero reveal" id="hero">
+    <div class="container center stack-lg">
+      <h1 id="heroTitle">Video, Photography & Social Content that makes your brand look sharp.</h1>
+      <p id="heroSub">From performance-ready edits to clean product photos and event coverage — I help you ship high-quality content quickly and consistently.</p>
+      <div class="hero-actions">
+        <a id="heroPrimary" class="cta" href="https://calendly.com/YOUR_HANDLE/15min" target="_blank" rel="noopener">Book a 15-min call</a>
+        <a id="heroSecondary" class="btn-outline" href="packages.html">See packages</a>
+      </div>
+      <div class="center" style="margin-top:10px; color:var(--muted); font-size:14px;">
+        Trusted by local brands • Typical first cut in 48–72h • Clear pricing
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Second Carousel (Right-to-Left) -->
-  <div class="carousel-container">
-    <div class="gallery-track gallery-track-rtl">
-
-      <!-- 1st set (random order). Modify as you wish to truly randomize. -->
-      <div class="gallery-item"><img src="images/9.jpg" alt="9"></div>
-      <div class="gallery-item"><img src="images/2.jpg" alt="2"></div>
-      <div class="gallery-item"><img src="images/12.jpg" alt="12"></div>
-      <div class="gallery-item"><img src="images/IMG_1455.JPG" alt="1455"></div>
-      <div class="gallery-item"><img src="images/4.jpg" alt="4"></div>
-      <div class="gallery-item"><img src="images/7.jpg" alt="7"></div>
-      <div class="gallery-item"><img src="images/IMG_1483.JPG" alt="1483"></div>
-      <div class="gallery-item"><img src="images/13.jpg" alt="13"></div>
-      <div class="gallery-item"><img src="images/5.jpg" alt="5"></div>
-      <div class="gallery-item"><img src="images/IMG_2090.JPG" alt="2090"></div>
-      <div class="gallery-item"><img src="images/10.jpg" alt="10"></div>
-      <div class="gallery-item"><img src="images/IMG_1571.JPG" alt="1571"></div>
-      <div class="gallery-item"><img src="images/6.jpg" alt="6"></div>
-      <div class="gallery-item"><img src="images/1.jpg" alt="1"></div>
-      <div class="gallery-item"><img src="images/IMG_2091.JPG" alt="2091"></div>
-      <div class="gallery-item"><img src="images/IMG_2048.JPG" alt="2048"></div>
-      <div class="gallery-item"><img src="images/IMG_1625.JPG" alt="1625"></div>
-      <div class="gallery-item"><img src="images/11.jpg" alt="11"></div>
-      <div class="gallery-item"><img src="images/8.jpg" alt="8"></div>
-      <div class="gallery-item"><img src="images/IMG_1596.JPG" alt="1596"></div>
-      <div class="gallery-item"><img src="images/3.jpg" alt="3"></div>
-
-      <!-- 2nd set (repeat the same random sequence) -->
-      <div class="gallery-item"><img src="images/9.jpg" alt="9"></div>
-      <div class="gallery-item"><img src="images/2.jpg" alt="2"></div>
-      <div class="gallery-item"><img src="images/12.jpg" alt="12"></div>
-      <div class="gallery-item"><img src="images/IMG_1455.JPG" alt="1455"></div>
-      <div class="gallery-item"><img src="images/4.jpg" alt="4"></div>
-      <div class="gallery-item"><img src="images/7.jpg" alt="7"></div>
-      <div class="gallery-item"><img src="images/IMG_1483.JPG" alt="1483"></div>
-      <div class="gallery-item"><img src="images/13.jpg" alt="13"></div>
-      <div class="gallery-item"><img src="images/5.jpg" alt="5"></div>
-      <div class="gallery-item"><img src="images/IMG_2090.JPG" alt="2090"></div>
-      <div class="gallery-item"><img src="images/10.jpg" alt="10"></div>
-      <div class="gallery-item"><img src="images/IMG_1571.JPG" alt="1571"></div>
-      <div class="gallery-item"><img src="images/6.jpg" alt="6"></div>
-      <div class="gallery-item"><img src="images/1.jpg" alt="1"></div>
-      <div class="gallery-item"><img src="images/IMG_2091.JPG" alt="2091"></div>
-      <div class="gallery-item"><img src="images/IMG_2048.JPG" alt="2048"></div>
-      <div class="gallery-item"><img src="images/IMG_1625.JPG" alt="1625"></div>
-      <div class="gallery-item"><img src="images/11.jpg" alt="11"></div>
-      <div class="gallery-item"><img src="images/8.jpg" alt="8"></div>
-      <div class="gallery-item"><img src="images/IMG_1596.JPG" alt="1596"></div>
-      <div class="gallery-item"><img src="images/3.jpg" alt="3"></div>
+  <!-- Services -->
+  <section id="services" class="container reveal">
+    <div class="cards">
+      <article class="card">
+        <h3>Video Production</h3>
+        <p>Short-form, promos, events, reels, and YouTube packages.</p>
+      </article>
+      <article class="card">
+        <h3>Photography</h3>
+        <p>Products, portraits, events, and lifestyle sets for campaigns.</p>
+      </article>
+      <article class="card">
+        <h3>Social & Delivery</h3>
+        <p>Thumbnails, captions, platform-native formats, and weekly drops.</p>
+      </article>
     </div>
-  </div>
+  </section>
 
-  <!-- Contact Link -->
-  <div class="contact">
-    <a href="mailto:chris@ridleymedia.co.za">Contact Us</a>
-  </div>
+  <!-- Selected Work / Marquees -->
+  <section id="work" class="container stack-md reveal" aria-label="Selected work">
+    <h2 class="center" style="font-size: clamp(22px,3vw,28px); letter-spacing:.2px; margin-top: 34px;">Selected Work</h2>
+    <div class="marquee" aria-hidden="false">
+      <div class="track ltr" data-seed="ordered" data-pps="42" aria-label="Scrolling gallery row 1"></div>
+    </div>
+    <div class="marquee" aria-hidden="false">
+      <div class="track rtl" data-seed="shuffled" data-pps="36" aria-label="Scrolling gallery row 2"></div>
+    </div>
+  </section>
 
-  <!-- Footer fixed at bottom -->
+  <!-- Client Showcase (single past client) -->
+  <section id="showcase" class="container reveal">
+    <h2 class="center" style="font-size: clamp(22px,3vw,28px);">Client Showcase</h2>
+    <div class="showcase">
+      <article class="showcase-card">
+        <div class="badge" id="scBadge">Case Study</div>
+        <h3 id="scTitle">[Client Name] — Goal: [Goal]</h3>
+        <div class="showcase-hero">
+          <img id="scImage" src="images/1.jpg" alt="Client showcase cover" />
+        </div>
+        <p id="scWhat" style="color:var(--muted);"></p>
+        <p><strong id="scOutcome">Outcome: </strong><span id="scOutcomeText"></span></p>
+        <div class="row">
+          <a class="btn-outline" href="packages.html">See relevant package</a>
+          <a class="cta" href="https://calendly.com/YOUR_HANDLE/15min" target="_blank" rel="noopener" id="scBook">Book a quick call</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Reduce risk -->
+  <section class="container reveal" id="reduce-risk">
+    <h2 class="center" style="font-size: clamp(22px,3vw,28px);">Why Ridley Media</h2>
+    <div class="benefits">
+      <div class="benefit"><strong>48–72h first cut</strong><br/>Standard edits delivered fast so you can keep momentum.</div>
+      <div class="benefit"><strong>1 revision round included</strong><br/>Within 7 days for a tidy sign-off.</div>
+      <div class="benefit"><strong>Show-up guarantee</strong><br/>If the crew can’t make it due to our fault, we comp the reshoot.</div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="container reveal">
+    <div class="center contact">
+      <p style="color: var(--muted); margin-bottom:10px;">Have a project in mind?</p>
+      <div class="quick-ctas">
+        <a id="ctaCall" class="cta" href="https://calendly.com/YOUR_HANDLE/15min" target="_blank" rel="noopener">Book a 15-min call</a>
+        <a id="ctaWhatsApp" class="btn-outline" href="https://wa.me/YOUR_NUMBER?text=Hi%20Ridley%20Media%2C%20I%27d%20like%20to%20chat%20about%20a%20project." target="_blank" rel="noopener">WhatsApp chat</a>
+        <a id="ctaEmail" class="btn-outline" href="mailto:chris@ridleymedia.co.za?subject=Project%20Enquiry%20-%20Ridley%20Media">Email us</a>
+      </div>
+      <a class="email" href="mailto:chris@ridleymedia.co.za">chris@ridleymedia.co.za</a>
+    </div>
+
+    <form id="contactForm" class="form" novalidate>
+      <input type="text" name="hp_city" style="display:none" tabindex="-1" autocomplete="off" />
+      <div class="field"><label for="name">Name*</label><input id="name" name="name" type="text" required placeholder="Your name" /></div>
+      <div class="field"><label for="email">Email*</label><input id="email" name="email" type="email" required placeholder="you@company.com" /></div>
+      <div class="field"><label for="company">Company</label><input id="company" name="company" type="text" placeholder="Brand or business (optional)" /></div>
+      <div class="field">
+        <label for="type">Project type</label>
+        <select id="type" name="type">
+          <option value="">Select…</option>
+          <option>Reels/Short-form</option>
+          <option>Product Photo</option>
+          <option>Event Coverage</option>
+          <option>YouTube/Long-form</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="timeline">Timeline</label>
+        <select id="timeline" name="timeline">
+          <option value="">Select…</option>
+          <option>This week</option>
+          <option>2–3 weeks</option>
+          <option>Next month</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="message">Project details*</label>
+        <textarea id="message" name="message" rows="5" required placeholder="Deliverables, location(s), timeline, goals."></textarea>
+      </div>
+      <!-- Turnstile -->
+      <div class="field"><div class="cf-turnstile" data-sitekey="0x0000000000000000000000000000000AA" data-theme="dark"></div></div>
+      <div class="actions">
+        <button id="submitBtn" class="cta" type="submit">Send enquiry</button>
+        <span id="formHint" class="hint">Protected by Turnstile. Reply within 1 business day.</span>
+      </div>
+      <div class="hint" style="margin-top:4px;">
+        By sending this form, you agree to the handling of your data as described on our <a href="privacy.html" class="btn-outline">Privacy Policy</a>.
+      </div>
+      <div id="formResult" class="hint" role="status" aria-live="polite"></div>
+    </form>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    &copy; 2025 Ridley Media
+    <div class="container">
+      <div>© 2025 Ridley Media — Johannesburg • Available worldwide</div>
+      <nav aria-label="Legal">
+        <a href="company.html">Company Details</a>
+        <span aria-hidden="true">•</span>
+        <a href="privacy.html">Privacy Policy</a>
+      </nav>
+    </div>
   </footer>
 
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Media preview">
+    <div class="lb-content">
+      <img class="lb-img" id="lbImg" alt="" />
+      <div class="lb-caption" id="lbCap"></div>
+      <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+      <button class="lb-prev" id="lbPrev" aria-label="Previous">‹</button>
+      <button class="lb-next" id="lbNext" aria-label="Next">›</button>
+    </div>
+  </div>
+
+  <script>
+    // --- CONFIG ----------------------------------------------------------------
+    const CONTACT_ENDPOINT = "https://formspree.io/f/REPLACE_WITH_YOUR_ID"; // replace to enable direct submissions
+    const CALENDLY = "https://calendly.com/YOUR_HANDLE/15min";             // replace with your Calendly
+    const WHATSAPP = "https://wa.me/YOUR_NUMBER?text=Hi%20Ridley%20Media%2C%20I%27d%20like%20to%20chat%20about%20a%20project."; // replace with your number
+
+    // Client Showcase data (fill with your one past client)
+    const CASE_STUDY = {
+      client: "Example Client",
+      goal: "Increase launch-day foot traffic",
+      what: ["6x Reels", "20 edited photos", "Event recap cut with captions"],
+      outcome: "+38% foot traffic vs prior event (30 days)",
+      cover: "images/1.jpg" // replace with your showcase cover
+    };
+
+    // Gallery files (base names with extension)
+    const IMAGE_FILES = [
+      "1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg","7.jpg","8.jpg","9.jpg","10.jpg","11.jpg","12.jpg","13.jpg",
+      "IMG_1625.JPG","IMG_1596.JPG","IMG_1571.JPG","IMG_1483.JPG","IMG_1455.JPG","IMG_2048.JPG","IMG_2090.JPG","IMG_2091.JPG"
+    ];
+
+    // Optional captions/alt per file
+    const CAPTIONS = { /* "1.jpg":"Event highlight — launch night" */ };
+
+    // --- Helpers ---------------------------------------------------------------
+    const toBase = (f) => f.replace(/\.(jpe?g|png|webp)$/i,'');
+    const pickAlt = (f) => CAPTIONS[f] || `Ridley Media work sample — ${toBase(f).replace(/[_-]+/g,' ')}`;
+    const shuffled = (arr) => { const a = arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a; };
+    const pl = (...args)=> (window.plausible ? window.plausible(...args) : null); // no-op if plausible not loaded
+
+    // Build <picture> for responsive AVIF/WebP + JPEG fallback
+    function buildPictureEl(file){
+      const base = toBase(file);
+      const picture = document.createElement('picture');
+
+      const sAvif = document.createElement('source');
+      sAvif.type = 'image/avif';
+      sAvif.srcset = [
+        `images/${base}-400.avif 400w`,`images/${base}-600.avif 600w`,`images/${base}-800.avif 800w`,`images/${base}-1200.avif 1200w`
+      ].join(', ');
+      sAvif.sizes = '(max-width: 640px) 200px, (max-width: 1000px) 240px, 280px';
+      picture.appendChild(sAvif);
+
+      const sWebp = document.createElement('source');
+      sWebp.type = 'image/webp';
+      sWebp.srcset = [
+        `images/${base}-400.webp 400w`,`images/${base}-600.webp 600w`,`images/${base}-800.webp 800w`,`images/${base}-1200.webp 1200w`
+      ].join(', ');
+      sWebp.sizes = sAvif.sizes;
+      picture.appendChild(sWebp);
+
+      const img = document.createElement('img');
+      img.loading = 'lazy'; img.decoding = 'async';
+      img.src = `images/${file}`;
+      img.srcset = [
+        `images/${base}-400.jpg 400w`,`images/${base}-600.jpg 600w`,`images/${base}-800.jpg 800w`,`images/${base}-1200.jpg 1200w`
+      ].join(', ');
+      img.sizes = sAvif.sizes;
+      img.alt = pickAlt(file);
+
+      picture.appendChild(img);
+      return picture;
+    }
+
+    function appendItems(trackEl, files){
+      const frag = document.createDocumentFragment();
+      for (const f of files){
+        const item = document.createElement('div');
+        item.className = 'item'; item.dataset.file = f;
+        item.appendChild(buildPictureEl(f));
+        frag.appendChild(item);
+      }
+      trackEl.appendChild(frag);
+    }
+    function buildTrack(trackEl, files){ appendItems(trackEl, files); appendItems(trackEl, files); }
+    function setSpeed(trackEl){
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches){ trackEl.style.animation='none'; return; }
+      const pps = Number(trackEl.getAttribute('data-pps')) || 40;
+      const width = trackEl.scrollWidth; // includes duplicate
+      const durationSec = Math.max(10, Math.round((width/2)/pps));
+      trackEl.style.animationDuration = durationSec + 's';
+    }
+
+    // Lightbox
+    const LIGHTBOX_SOURCES = IMAGE_FILES.map(f => ({ src:`images/${f}`, alt:pickAlt(f), file:f }));
+    const lb = { root:null, img:null, cap:null, btnClose:null, btnPrev:null, btnNext:null, index:0, lastFocus:null };
+
+    // Scroll reveal
+    function initReveal(){
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold:.2 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }
+
+    // A/B test: hero copy/CTA
+    function initAB(){
+      const variants = {
+        A: { title:"Sharp content, shipped weekly.", sub:"We plan, shoot, and deliver video & photo that grows brands in Johannesburg and beyond.",
+             primaryLabel:"Book a 15-min call", primaryHref: CALENDLY, secondaryLabel:"See packages", secondaryHref:"packages.html" },
+        B: { title:"Video & Photo that grows your brand.", sub:"Short-form videos, product photos, and social delivery—done for you.",
+             primaryLabel:"Get rate card", primaryHref:"packages.html#rates", secondaryLabel:"Book a call", secondaryHref: CALENDLY }
+      };
+      let v = localStorage.getItem('heroVariant') || (Math.random() < .5 ? 'A' : 'B');
+      localStorage.setItem('heroVariant', v);
+      const {title, sub, primaryLabel, primaryHref, secondaryLabel, secondaryHref} = variants[v];
+      document.getElementById('heroTitle').textContent = title;
+      document.getElementById('heroSub').textContent = sub;
+      const hp = document.getElementById('heroPrimary'); hp.textContent = primaryLabel; hp.href = primaryHref;
+      const hs = document.getElementById('heroSecondary'); hs.textContent = secondaryLabel; hs.href = secondaryHref;
+      pl('hero_variant_exposed', { props: { variant: v }});
+      hp.addEventListener('click', ()=> pl('hero_primary_click', { props:{ variant:v }}));
+      hs.addEventListener('click', ()=> pl('hero_secondary_click', { props:{ variant:v }}));
+    }
+
+    // Showcase render
+    function initShowcase(){
+      document.getElementById('scTitle').textContent = `${CASE_STUDY.client} — Goal: ${CASE_STUDY.goal}`;
+      document.getElementById('scImage').src = CASE_STUDY.cover;
+      document.getElementById('scImage').alt = `${CASE_STUDY.client} showcase cover`;
+      document.getElementById('scWhat').textContent = `What we delivered: ${CASE_STUDY.what.join(', ')}`;
+      document.getElementById('scOutcomeText').textContent = CASE_STUDY.outcome;
+      const sc = document.getElementById('showcase');
+      const io = new IntersectionObserver(es => {
+        es.forEach(e => { if (e.isIntersecting){ pl('case_study_view', { props:{ client: CASE_STUDY.client }}); io.unobserve(sc);} });
+      }, { threshold:.3 });
+      io.observe(sc);
+    }
+
+    // Init galleries
+    function initGalleries(){
+      const rows = document.querySelectorAll('.track');
+      rows.forEach(row => {
+        const files = row.getAttribute('data-seed') === 'shuffled' ? shuffled(IMAGE_FILES) : IMAGE_FILES.slice();
+        buildTrack(row, files);
+      });
+      requestAnimationFrame(() => document.querySelectorAll('.track').forEach(setSpeed));
+      addEventListener('resize', ()=> setTimeout(()=> document.querySelectorAll('.track').forEach(setSpeed),120));
+      addEventListener('orientationchange', ()=> setTimeout(()=> document.querySelectorAll('.track').forEach(setSpeed),120));
+    }
+
+    // Init lightbox
+    function initLightbox(){
+      lb.root = document.getElementById('lightbox'); lb.img = document.getElementById('lbImg'); lb.cap = document.getElementById('lbCap');
+      lb.btnClose = document.getElementById('lbClose'); lb.btnPrev = document.getElementById('lbPrev'); lb.btnNext = document.getElementById('lbNext');
+
+      function openByIdx(i){
+        lb.index = (i + LIGHTBOX_SOURCES.length) % LIGHTBOX_SOURCES.length;
+        const {src, alt} = LIGHTBOX_SOURCES[lb.index];
+        lb.img.src = src; lb.img.alt = alt; lb.cap.textContent = alt;
+        lb.lastFocus = document.activeElement; document.body.classList.add('no-scroll'); lb.root.classList.add('open'); lb.btnClose.focus();
+        pl('lightbox_open', { props:{ idx: lb.index }});
+      }
+      function openByFile(name){ const i = IMAGE_FILES.indexOf(name); if (i>=0) openByIdx(i); }
+      function close(){ lb.root.classList.remove('open'); document.body.classList.remove('no-scroll'); lb.img.src=''; if (lb.lastFocus?.focus) lb.lastFocus.focus(); }
+      function next(){ openByIdx(lb.index+1); }
+      function prev(){ openByIdx(lb.index-1); }
+
+      document.addEventListener('click', e => {
+        const item = e.target.closest('.item'); if (!item) return;
+        e.preventDefault(); openByFile(item.dataset.file);
+      });
+      lb.btnClose.addEventListener('click', close);
+      lb.btnNext.addEventListener('click', next);
+      lb.btnPrev.addEventListener('click', prev);
+      lb.root.addEventListener('click', e => { if (e.target === lb.root) close(); });
+      document.addEventListener('keydown', e => {
+        if (!lb.root.classList.contains('open')) return;
+        if (e.key==='Escape'){ e.preventDefault(); close(); }
+        if (e.key==='ArrowRight'){ e.preventDefault(); next(); }
+        if (e.key==='ArrowLeft'){ e.preventDefault(); prev(); }
+        if (e.key==='Tab'){
+          const focusables=[lb.btnClose,lb.btnPrev,lb.btnNext], i=focusables.indexOf(document.activeElement);
+          if (e.shiftKey){ if (i<=0){ e.preventDefault(); focusables[focusables.length-1].focus(); } }
+          else { if (i===-1 || i>=focusables.length-1){ e.preventDefault(); focusables[0].focus(); } }
+        }
+      });
+    }
+
+    // Contact + analytics
+    function initContact(){
+      // wire nav CTA + quick-CTAs to analytics
+      const add = (id, ev)=>{ const el = document.getElementById(id); if (el) el.addEventListener('click', ()=> pl(ev)); };
+      add('navBookCall','book_call_click'); add('ctaCall','book_call_click');
+      add('ctaWhatsApp','whatsapp_click');  add('ctaEmail','email_click');
+      add('scBook','book_call_click');
+
+      // Reflect configured links
+      document.querySelectorAll(`a[href*="calendly.com/YOUR_HANDLE"]`).forEach(a=> a.href = CALENDLY);
+      document.querySelectorAll(`a[href*="wa.me/YOUR_NUMBER"]`).forEach(a=> a.href = WHATSAPP);
+
+      const form = document.getElementById('contactForm');
+      const hint = document.getElementById('formHint');
+      const result = document.getElementById('formResult');
+      const btn = document.getElementById('submitBtn');
+      let started = false;
+
+      form.addEventListener('focusin', () => { if (!started){ started = true; pl('form_start'); } });
+
+      function composeMailto(data){
+        const subject = encodeURIComponent("Project Enquiry - Ridley Media");
+        const lines = [
+          `Name: ${data.name}`,`Email: ${data.email}`,
+          data.company?`Company: ${data.company}`:null,
+          data.type?`Project type: ${data.type}`:null,
+          data.timeline?`Timeline: ${data.timeline}`:null,"",data.message
+        ].filter(Boolean).join('\n');
+        return `mailto:chris@ridleymedia.co.za?subject=${subject}&body=${encodeURIComponent(lines)}`;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const fd = new FormData(form);
+        if (fd.get('hp_city')) return; // bot trap
+
+        const data = {
+          name: (fd.get('name')||'').trim(),
+          email: (fd.get('email')||'').trim(),
+          company: (fd.get('company')||'').trim(),
+          type: (fd.get('type')||'').trim(),
+          timeline: (fd.get('timeline')||'').trim(),
+          message: (fd.get('message')||'').trim(),
+          turnstile_token: fd.get('cf-turnstile-response') || ''
+        };
+
+        if (!data.name || !data.email || !data.message){
+          result.textContent = "Please fill in your name, email, and project details.";
+          result.className = "hint error";
+          return;
+        }
+
+        const hasEndpoint = CONTACT_ENDPOINT && !/REPLACE_WITH_YOUR_ID/i.test(CONTACT_ENDPOINT);
+        btn.disabled = true; hint.textContent = "Sending…"; result.textContent = ""; result.className = "hint";
+
+        try{
+          if (hasEndpoint){
+            const res = await fetch(CONTACT_ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body: JSON.stringify(data) });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            form.reset(); result.textContent = "Thanks! Your enquiry was sent. I’ll get back to you shortly.";
+            result.className = "hint success"; hint.textContent = "Done ✅"; pl('form_submit', { props:{ method:'endpoint' }});
+          } else {
+            window.location.href = composeMailto(data);
+            result.textContent = "Drafted an email in your mail app. If nothing opened, email me directly at chris@ridleymedia.co.za.";
+            result.className = "hint success"; hint.textContent = "Using email fallback ✉️"; pl('form_submit', { props:{ method:'mailto' }});
+          }
+        } catch(err){
+          console.error(err);
+          result.textContent = "Sorry, something went wrong. Please email me at chris@ridleymedia.co.za.";
+          result.className = "hint error"; hint.textContent = "Error";
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    }
+
+    // Boot
+    (function boot(){
+      initReveal();
+      initAB();
+      initShowcase();
+      initGalleries();
+      initLightbox();
+      initContact();
+
+      // Preload one image for FP
+      const l=document.createElement('link'); l.rel='preload'; l.as='image'; l.href='images/1.jpg'; document.head.appendChild(l);
+    })();
+  </script>
 </body>
 </html>
