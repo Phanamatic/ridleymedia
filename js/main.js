@@ -75,5 +75,27 @@
         },delay);
     });
 
+    /*==================================================================
+    [ Ken Burns Slider ]*/
+    function initKenBurnsSlider() {
+        const slides = $('.ken-burns-slide');
+        let currentSlide = 0;
+        
+        if (slides.length === 0) return;
+        
+        slides.removeClass('active');
+        $(slides[currentSlide]).addClass('active');
+        
+        setInterval(function() {
+            $(slides[currentSlide]).removeClass('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            $(slides[currentSlide]).addClass('active');
+        }, 6000);
+    }
+    
+    $(document).ready(function() {
+        initKenBurnsSlider();
+    });
+
 
 })(jQuery);
