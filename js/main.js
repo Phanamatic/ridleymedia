@@ -6,7 +6,8 @@
     [ Validate ]*/
     var input = $('.validate-input .input100');
 
-    $('.validate-form').on('submit',function(){
+    $('.validate-form').on('submit',function(e){
+        e.preventDefault();
         var check = true;
 
         for(var i=0; i<input.length; i++) {
@@ -16,7 +17,9 @@
             }
         }
 
-        return check;
+        if(check) {
+            submitEmail();
+        }
     });
 
 
@@ -91,6 +94,40 @@
             currentSlide = (currentSlide + 1) % slides.length;
             $(slides[currentSlide]).addClass('active');
         }, 6000);
+    }
+    
+    function submitEmail() {
+        var email = $('input[name="email"]').val();
+        var button = $('.validate-form button');
+        var originalText = button.html();
+        
+        button.html('<i class="fa fa-spinner fa-spin"></i>').prop('disabled', true);
+        
+        $.ajax({
+            url: 'submit_email.php',
+            type: 'POST',
+            data: { email: email },
+            dataType: 'json',
+            success: function(response) {
+                if(response.success) {
+                    $('input[name="email"]').val('');
+                    $('.wrap-input100 .bor1 span').text('Thank you! We\'ll be in touch soon.');
+                    button.html('<i class="zmdi zmdi-check fs-30 cl1"></i>');
+                    
+                    setTimeout(function() {
+                        button.html(originalText).prop('disabled', false);
+                        $('.wrap-input100 .bor1 span').text('Share your email');
+                    }, 3000);
+                } else {
+                    alert(response.message || 'Something went wrong. Please try again.');
+                    button.html(originalText).prop('disabled', false);
+                }
+            },
+            error: function() {
+                alert('Network error. Please try again.');
+                button.html(originalText).prop('disabled', false);
+            }
+        });
     }
     
     $(document).ready(function() {
