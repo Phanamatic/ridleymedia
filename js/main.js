@@ -2,8 +2,6 @@
 (function ($) {
     "use strict";
 
-    /*==================================================================
-    [ Validate ]*/
     var input = $('.validate-input .input100');
 
     $('.validate-form').on('submit',function(e){
@@ -56,8 +54,6 @@
 
     
     
-    /*==================================================================
-    [ Simple slide100 ]*/
 
     $('.simpleslide100').each(function(){
         var delay = 7000;
@@ -78,8 +74,6 @@
         },delay);
     });
 
-    /*==================================================================
-    [ Ken Burns Slider ]*/
     function initKenBurnsSlider() {
         const slides = $('.ken-burns-slide');
         let currentSlide = 0;

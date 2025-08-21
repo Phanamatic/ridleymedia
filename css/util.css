@@ -1,7 +1,5 @@
 
 
-/*//////////////////////////////////////////////////////////////////
-[ REBOOT ]*/
 *, *:before, *:after {
 	margin: 0px; 
 	padding: 0px; 
@@ -20,13 +18,16 @@ body, html {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	-webkit-overflow-scrolling: touch;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+	overflow-x: hidden;
 }
 
-/*---------------------------------------------*/
 a:focus {outline: none;}
 a:hover {text-decoration: none;}
 
-/* ------------------------------------ */
 h1,h2,h3,h4,h5,h6,p {margin: 0px;}
 
 ul, li {
@@ -35,27 +36,69 @@ ul, li {
 }
 
 
-/* ------------------------------------ */
 input, textarea, label {
 	display: block;
 	outline: none;
 	border: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border-radius: 0;
 }
 
-/* ------------------------------------ */
 button {
 	outline: none;
 	border: none;
 	background: transparent;
 	cursor: pointer;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	-webkit-tap-highlight-color: transparent;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 button:focus {outline: none;}
 
 iframe {border: none;}
 
+@supports (-webkit-touch-callout: none) {
+  input[type="email"] {
+    font-size: 16px !important;
+  }
+}
 
-/*//////////////////////////////////////////////////////////////////
-[ FONT SIZE ]*/
+@media screen and (-webkit-min-device-pixel-ratio: 2),
+       screen and (min-resolution: 192dpi) {
+  body {
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+}
+
+.no-touch-highlight {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+@supports (display: flex) {
+  .flex-fallback {
+    display: flex !important;
+  }
+}
+
+
 .fs-1 {font-size: 1px;}
 .fs-2 {font-size: 2px;}
 .fs-3 {font-size: 3px;}
@@ -2308,7 +2351,6 @@ iframe {border: none;}
 .lh-2-9 {line-height: 2.9;}
 .lh-3-0 {line-height: 3.0;}
 
-/* ------------------------------------ */
 .txt-center {text-align: center;}
 .txt-left {text-align: left;}
 .txt-right {text-align: right;}
@@ -2390,11 +2432,9 @@ iframe {border: none;}
 .wrap-pic-w img {width: 100%;}
 .wrap-pic-max-w img {max-width: 100%;}
 
-/* ------------------------------------ */
 .wrap-pic-h img {height: 100%;}
 .wrap-pic-max-h img {max-height: 100%;}
 
-/* ------------------------------------ */
 .wrap-pic-cir {
 	border-radius: 50%;
 	overflow: hidden;
@@ -2562,7 +2602,6 @@ iframe {border: none;}
 
 /*------------------------------------------------------------------
 [ Flex ]*/
-/* ------------------------------------ */
 .flex-w {
 	-webkit-flex-wrap: wrap;
 	-moz-flex-wrap: wrap;
@@ -2571,7 +2610,6 @@ iframe {border: none;}
 	flex-wrap: wrap;
 }
 
-/* ------------------------------------ */
 .flex-l {
 	justify-content: flex-start;
 }
@@ -2592,7 +2630,6 @@ iframe {border: none;}
 	justify-content: space-between;
 }
 
-/* ------------------------------------ */
 .flex-t {
 	-ms-align-items: flex-start;
 	align-items: flex-start;
@@ -2614,7 +2651,6 @@ iframe {border: none;}
 }
 
 
-/* ------------------------------------ */
 .flex-c-m {
 	justify-content: center;
 	-ms-align-items: center;
@@ -2663,7 +2699,6 @@ iframe {border: none;}
 	align-items: center;
 }
 
-/* ------------------------------------ */
 .flex-col-l {
 	-ms-align-items: flex-start;
 	align-items: flex-start;
@@ -2684,7 +2719,6 @@ iframe {border: none;}
 	align-items: stretch;
 }
 
-/*---------------------------------------------*/
 .flex-col-t {
 	justify-content: flex-start;
 }
@@ -2705,7 +2739,6 @@ iframe {border: none;}
 	justify-content: space-around;
 }
 
-/*---------------------------------------------*/
 .flex-col-c-m {
 	-ms-align-items: center;
 	align-items: center;
@@ -2756,7 +2789,6 @@ iframe {border: none;}
 }
 
 
-/* ------------------------------------ */
 .flex-row {
 	-webkit-flex-direction: row;
 	-moz-flex-direction: row;

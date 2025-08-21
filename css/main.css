@@ -1,15 +1,6 @@
-/*------------------------------------------------------------------
-Project:  ComingSoon
-Version:  
-Last change:  
-Assigned to:  Bach Le
-Primary use:  
--------------------------------------------------------------------*/
 
 
 
-/*//////////////////////////////////////////////////////////////////
-[ FONT ]*/
 
 @font-face {
   font-family: PlayfairDisplay-Regular;
@@ -31,13 +22,8 @@ Primary use:
   src: url('../fonts/Poppins/Poppins-Medium.ttf'); 
 }
 
-/*//////////////////////////////////////////////////////////////////
-[ RS PLUGIN ]*/
-/*---------------------------------------------*/
 .container {max-width: 1200px;}
 
-/*//////////////////////////////////////////////////////////////////
-[ KEN BURNS EFFECT ]*/
 .ken-burns-slider {
   position: relative;
   overflow: hidden;
@@ -78,14 +64,207 @@ Primary use:
   }
 }
 
+.privacy-notice {
+  font-family: Poppins-Regular;
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  margin-top: 15px;
+  line-height: 1.4;
+}
 
-/*//////////////////////////////////////////////////////////////////
-[ Form ]*/
+@media (max-width: 576px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .flex-w.flex-str.size1 {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .wsize1 {
+    width: 100% !important;
+    min-height: 60vh;
+    padding: 20px 15px 30px 15px !important;
+  }
+  
+  .wsize2 {
+    width: 100% !important;
+    min-height: 40vh;
+    order: -1;
+  }
+  
+  .p-t-100 {
+    padding-top: 30px !important;
+  }
+  
+  .p-b-90 {
+    padding-bottom: 30px !important;
+  }
+  
+  .l1-txt1 {
+    font-size: 28px !important;
+    line-height: 1.2;
+    text-align: center;
+  }
+  
+  .m2-txt1 {
+    font-size: 16px !important;
+    text-align: center;
+    padding-bottom: 25px !important;
+  }
+  
+  .wrap-input100 {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  
+  .input100 {
+    font-size: 16px !important;
+    padding: 15px 20px !important;
+  }
+  
+  .size2 {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  
+  .size4 {
+    width: 100% !important;
+    height: 45px !important;
+    top: auto !important;
+    bottom: -45px !important;
+    left: 0 !important;
+  }
+  
+  .privacy-notice {
+    font-size: 11px;
+    margin-top: 25px;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .wsize1 {
+    padding: 30px 25px 40px 25px !important;
+  }
+  
+  .l1-txt1 {
+    font-size: 32px !important;
+  }
+  
+  .m2-txt1 {
+    font-size: 18px !important;
+  }
+  
+  .wrap-input100 {
+    max-width: 90% !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .wsize1 {
+    padding: 40px 35px 50px 45px !important;
+  }
+  
+  .l1-txt1 {
+    font-size: 36px !important;
+  }
+  
+  .wrap-input100 {
+    max-width: 85% !important;
+  }
+}
+
+@media (min-width: 993px) and (max-width: 1200px) {
+  .wsize1 {
+    padding: 50px 45px 60px 55px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .flex-w.flex-str.size1 {
+    flex-direction: column;
+  }
+  
+  .wsize2 {
+    order: -1;
+    min-height: 35vh;
+  }
+  
+  .wsize1 {
+    min-height: 65vh;
+    padding: 15px 10px 25px 10px !important;
+  }
+  
+  .l1-txt1 {
+    font-size: 24px !important;
+    padding-bottom: 20px !important;
+  }
+  
+  .m2-txt1 {
+    font-size: 14px !important;
+    padding-bottom: 20px !important;
+  }
+  
+  .p-t-100 {
+    padding-top: 20px !important;
+  }
+  
+  .input100 {
+    font-size: 14px !important;
+    padding: 12px 15px !important;
+  }
+  
+  .size2 {
+    width: 45px !important;
+    height: 45px !important;
+  }
+  
+  .size4 span {
+    font-size: 12px !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .flex-w.flex-str.size1 {
+    flex-direction: row;
+  }
+  
+  .wsize1 {
+    width: 60% !important;
+    padding: 15px 20px !important;
+  }
+  
+  .wsize2 {
+    width: 40% !important;
+    order: initial;
+  }
+  
+  .p-t-100 {
+    padding-top: 15px !important;
+  }
+  
+  .p-b-90 {
+    padding-bottom: 15px !important;
+  }
+  
+  .l1-txt1 {
+    font-size: 20px !important;
+    padding-bottom: 15px !important;
+  }
+  
+  .m2-txt1 {
+    font-size: 14px !important;
+    padding-bottom: 15px !important;
+  }
+}
+
+
 .contact100-form {
   max-width: 100%;
 }
-/*------------------------------------------------------------------
-[ Input ]*/
 
 .wrap-input100 {
   width: 650px;
@@ -101,7 +280,6 @@ Primary use:
   }
 }
 
-/*---------------------------------------------*/
 .input100 {
   display: block;
   width: 100%;
@@ -228,22 +406,12 @@ Primary use:
 
 
 
-/*==================================================================
-    TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT
-==================================================================*/
-
-/*==================================================================
-[ Color ]*/
 .cl0 {color: #fff;}
 .cl1 {color: #333;}
 
 
 
 
-/*//////////////////////////////////////////////////////////////////
-[ S-Text 0 - 15 ]*/
-
-/*---------------------------------------------*/
 .s2-txt1 {
   font-family: Poppins-Medium;
   font-size: 15px;
@@ -253,10 +421,6 @@ Primary use:
 
 
 
-/*//////////////////////////////////////////////////////////////////
-[ M-Text 16 - 25 ]*/
-
-/*---------------------------------------------*/
 .m2-txt1 {
   font-family: Poppins-Regular;
   font-size: 24px;
@@ -274,8 +438,6 @@ Primary use:
 
 
 
-/*//////////////////////////////////////////////////////////////////
-[ L-Text >= 26 ]*/
 .l1-txt1 {
   font-family: PlayfairDisplay-Regular;
   font-size: 60px;
@@ -285,11 +447,6 @@ Primary use:
 }
 
 
-/*==================================================================
-   SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE
-==================================================================*/
-/*//////////////////////////////////////////////////////////////////
-[ Size ]*/
 .size1 {
   width: 100%;
   min-height: 100vh;
@@ -310,8 +467,6 @@ Primary use:
   height: 80px;
 }
 
-/*//////////////////////////////////////////////////////////////////
-[ Width ]*/
 .wsize1 {
   width: 37%;
 }
@@ -343,8 +498,6 @@ Primary use:
 
 
 
-/*//////////////////////////////////////////////////////////////////
-[ Border ]*/
 .bor1 {
   border-left: 5px solid #333;
 }
@@ -352,23 +505,16 @@ Primary use:
 
 
 
-/*==================================================================
-   WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE WHERE  
-==================================================================*/
 
 
 
 
-/*==================================================================
- HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW HOW 
-==================================================================*/
 .placeholder0::-webkit-input-placeholder { color: #666;}
 .placeholder0:-moz-placeholder { color: #666;}
 .placeholder0::-moz-placeholder { color: #666;}
 .placeholder0:-ms-input-placeholder { color: #666;}
 
 
-/*---------------------------------------------*/
 .overlay1 {
   position: relative;
   z-index: 1;
@@ -385,7 +531,6 @@ Primary use:
   background: rgba(0,0,0,0.5);
 }
 
-/*---------------------------------------------*/
 .wrappic1 {
   display: block;
 }
@@ -394,7 +539,6 @@ Primary use:
   max-width: 100%;
 }
 
-/*---------------------------------------------*/
 .how-btn1 {
   padding: 0 15px;
   background-color: #fff;
@@ -406,7 +550,6 @@ Primary use:
   color: #fff;
 }
 
-/*---------------------------------------------*/
 .how-social {
   color: #666;
   font-size: 16px;
@@ -421,23 +564,16 @@ Primary use:
 }
 
 
-/*//////////////////////////////////////////////////////////////////
-[ Pseudo ]*/
 
-/*------------------------------------------------------------------
-[ Focus ]*/
 .focus-in0:focus::-webkit-input-placeholder { color:transparent; }
 .focus-in0:focus:-moz-placeholder { color:transparent; }
 .focus-in0:focus::-moz-placeholder { color:transparent; }
 .focus-in0:focus:-ms-input-placeholder { color:transparent; }
 
 
-/*------------------------------------------------------------------
-[ Hover ]*/
 .hov-cl0:hover {color: #fff;}
 .hov-bg0:hover {background-color: #fff;}
 
-/*---------------------------------------------*/
 .hov1:hover i {
   -webkit-transform: translateX(10px);
   -moz-transform: translateX(10px);
@@ -477,21 +613,17 @@ Primary use:
 
   .w-full-xl {width: 100%;}
 
-  /*---------------------------------------------*/
-  .respon1 {
+    .respon1 {
     width: 60%;
   }
 
-  /*---------------------------------------------*/
-  .respon2 {
+    .respon2 {
     width: 40%;
   }
 
 }
 
 
-/*//////////////////////////////////////////////////////////////////
-[ LG ]*/
 @media (max-width: 992px) {
   .dis-none-lg {display: none;}
   .m-0-lg {margin: 0;}
@@ -512,15 +644,13 @@ Primary use:
 
   .w-full-lg {width: 100%;}
 
-  /*---------------------------------------------*/
-  .respon1 {
+    .respon1 {
     width: 100%;
     padding-left: 15px;
     padding-right: 15px;
   }
 
-  /*---------------------------------------------*/
-  .respon2 {
+    .respon2 {
     width: 100%;
     height: 500px;
   }
@@ -529,8 +659,6 @@ Primary use:
 }
 
 
-/*//////////////////////////////////////////////////////////////////
-[ MD ]*/
 @media (max-width: 768px) {
   .m-0-md {margin: 0;}
   .m-lr-0-md {margin-left: 0; margin-right: 0;}
@@ -549,13 +677,10 @@ Primary use:
   .p-r-15-md {padding-right: 15px;}
 
   .w-full-md {width: 100%;}
-  /*---------------------------------------------*/
-
+  
 }
 
 
-/*//////////////////////////////////////////////////////////////////
-[ SM ]*/
 @media (max-width: 576px) {
   .dis-none-sm {display: none;}
   .m-0-sm {margin: 0;}
@@ -576,13 +701,11 @@ Primary use:
 
   .w-full-sm {width: 100%;}
 
-  /*---------------------------------------------*/
-  .respon3 {
+    .respon3 {
     font-size: 60px;
   }
   
-  /*---------------------------------------------*/
-  .respon4 {
+    .respon4 {
     width: 5px;
   }
 
@@ -590,8 +713,7 @@ Primary use:
     display: none;
   }
 
-  /*---------------------------------------------*/
-  .respon5 {
+    .respon5 {
     width: 60px;
   }
   
@@ -618,6 +740,5 @@ Primary use:
   .p-r-15-ssm {padding-right: 15px;}
 
   .w-full-ssm {width: 100%;}
-  /*---------------------------------------------*/
-
+  
 }
